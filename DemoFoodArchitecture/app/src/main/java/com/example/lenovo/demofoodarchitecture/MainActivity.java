@@ -30,27 +30,24 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    ArrayList<FoodModel> foodModelArrayList;
-    ArrayList<FoodModel> foodModelArrayList2 = new ArrayList<>();
+    ArrayList<FoodModel> foodModelArrayList = new ArrayList<>();
     RecyclerViewFoodListAdapter myAdapter;
 
-    public static String myLink = "https://phamquocdai126.000webhostapp.com/ArchitectureWebService/middleware.php";
+    public static String myLink = "https://phamquocdai126.000webhostapp.com/ArchitectureWebService/middleware.php?accesstoken=123456";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //LoadData();
-        //Mapping();
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerviewFood);
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
         recyclerView.setLayoutManager(mGridLayoutManager);
-        myAdapter = new RecyclerViewFoodListAdapter(MainActivity.this,
-                foodModelArrayList2);
+        myAdapter = new RecyclerViewFoodListAdapter(MainActivity.this, foodModelArrayList);
         recyclerView.setAdapter(myAdapter);
 
         //GetDataFromWebservice("http://192.168.137.1/ArchitectureWebService/getdata.php?accesstoken=123456");
-        GetDataFromWebservice(myLink+"?accesstoken=123456");
+        GetDataFromWebservice(myLink+"&type=1");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabCartHome);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -62,12 +59,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void Mapping(){
-
-    }
-
-
-
     private void GetDataFromWebservice(String myUrl){
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -75,20 +66,16 @@ public class MainActivity extends AppCompatActivity {
                 myUrl, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                foodModelArrayList2.clear();
+                foodModelArrayList.clear();
                 for (int i =0 ;i <response.length();i++){
                     try {
                         JSONObject object =response.getJSONObject(i);
-                        foodModelArrayList2.add(new FoodModel(
+                        foodModelArrayList.add(new FoodModel(
                                 object.getInt("id"),
                                 object.getString("name"),
                                 object.getDouble("price"),
                                 object.getString("image"),
                                 object.getInt("discount")));
-                        Log.d("cu", "onResponse: "+ foodModelArrayList2.size()+ foodModelArrayList2.get(i).getId()+
-                            foodModelArrayList2.get(i).getPrice()+ foodModelArrayList2.get(i).getImage());
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -105,70 +92,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         requestQueue.add(jsonArrayRequest);
-
-    }
-
-
-    private void UpdateFoodToDatabase(String myURL){
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, myURL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if (response.trim().toString().equals("success")){
-                    Toast.makeText(MainActivity.this, "Update successfully!", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(MainActivity.this, "update failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Update error!", Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-               Map<String,String> params = new HashMap<>();
-                params.put("id","2");
-                params.put("name","Miến Bò");
-                params.put("price","35000");
-                params.put("image","https://phamquocdai126.000webhostapp.com/QQ-Tr%C3%A0-xanh-chanh-d%C3%A2y-1.png");
-                return params;
-            }
-        };
-        requestQueue.add(stringRequest);
-    }
-
-    private void DeleteFoodFromDatabase(String myURL){
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, myURL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if (response.trim().toString().equals("success")){
-                    Toast.makeText(MainActivity.this, "Delete successfully!", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(MainActivity.this, "Delete failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Delete error!", Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<>();
-                params.put("id","11");
-               return params;
-            }
-        };
-        requestQueue.add(stringRequest);
-
 
     }
 

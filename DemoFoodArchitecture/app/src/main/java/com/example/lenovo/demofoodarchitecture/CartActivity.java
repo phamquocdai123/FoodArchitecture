@@ -49,13 +49,10 @@ public class CartActivity extends AppCompatActivity {
     int IdOrder,QuantityOrder;
     private double myDiscountNoel= 0.1;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-//        database = FirebaseDatabase.getInstance();
-//        requests = database.getReference("Requests");
 
         recyclerView = findViewById(R.id.listCart);
         recyclerView.setHasFixedSize(true);
@@ -66,7 +63,7 @@ public class CartActivity extends AppCompatActivity {
         btnPlace = findViewById(R.id.btnPlaceOrder);
         loadListDocument();
         //GetIdLastOrderItem(myLink+"https://phamquocdai126.000webhostapp.com/ArchitectureWebService/getidlastorderitem.php");
-        GetIdLastOrderItem(myLink+"?accesstoken=2202");
+        GetIdLastOrderItem(myLink+"&type=2");
         btnPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,9 +96,9 @@ public class CartActivity extends AppCompatActivity {
                     IdOrder = 1;
                 }
                 //AddNewOrderToDatabase("https://phamquocdai126.000webhostapp.com/ArchitectureWebService/addnewmyorderlist.php");
-                AddNewOrderToDatabase(myLink+"?accesstoken=1997");
+                AddNewOrderToDatabase(myLink+"&type=3");
                 for (int i2 = 0; i2 < cart.size(); i2++){
-                    AddNewOrderDetailToDatabase(myLink+"?accesstoken=2019",
+                    AddNewOrderDetailToDatabase(myLink+"&type=4",
                             cart.get(i2));
                 }
                 new Database(getBaseContext()).cleanCart();

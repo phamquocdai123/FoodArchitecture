@@ -28,7 +28,6 @@ public class Database extends SQLiteAssetHelper {
         ArrayList<OrderModel> result = new ArrayList<>();
         if(c.moveToFirst()){
             do{
-
                 FoodModel foodModel = new FoodModel(Integer.valueOf(c.getString(c.getColumnIndex("ProductId"))),
                         c.getString(c.getColumnIndex("ProductName")),
                         Double.valueOf( c.getString(c.getColumnIndex("Price"))),

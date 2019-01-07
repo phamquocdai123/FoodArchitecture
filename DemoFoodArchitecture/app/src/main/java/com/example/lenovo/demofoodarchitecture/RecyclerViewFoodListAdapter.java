@@ -10,13 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RecyclerViewFoodListAdapter extends RecyclerView.Adapter<RecyclerViewFoodListAdapter.ViewHolder> {
@@ -29,7 +26,6 @@ public class RecyclerViewFoodListAdapter extends RecyclerView.Adapter<RecyclerVi
         this.mContext = mContext;
         this.foodModelArrayList = foodModelArrayList;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -37,7 +33,6 @@ public class RecyclerViewFoodListAdapter extends RecyclerView.Adapter<RecyclerVi
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
@@ -49,7 +44,6 @@ public class RecyclerViewFoodListAdapter extends RecyclerView.Adapter<RecyclerVi
                     .load(model.getImage())
                     .into(messageViewHolder.img);
 
-        //messageViewHolder.img.setImageResource(model.getImage());
         messageViewHolder.txt.setText(model.getName());
         String strDouble = String.format("%.0f", model.getPrice());
         messageViewHolder.txtPrice.setText(strDouble + " đ");
@@ -58,14 +52,11 @@ public class RecyclerViewFoodListAdapter extends RecyclerView.Adapter<RecyclerVi
         messageViewHolder.parent_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Toast.makeText(mContext, "Test !", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, FoodDetailActivity.class);
                 intent.putExtra("activityModel", (Parcelable) model);
                 mContext.startActivity(intent);
             }
         });
-
-
 
     }
 
@@ -73,8 +64,6 @@ public class RecyclerViewFoodListAdapter extends RecyclerView.Adapter<RecyclerVi
     public int getItemCount() {
         return foodModelArrayList.size();
     }
-
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img;

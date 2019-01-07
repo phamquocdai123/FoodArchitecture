@@ -40,7 +40,6 @@ public class FoodDetailActivity extends AppCompatActivity {
             String strDouble = String.format("%.0f", foodModel.getPrice());
             txtPrice.setText(strDouble + "");
 
-
             txtdiscount.setText("Discount: "+ String.valueOf(foodModel.getDiscount())+ "%");
             Glide.with(getBaseContext())
                     .asBitmap()
@@ -72,7 +71,6 @@ public class FoodDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         floatingActionButtonAddToCart = (android.support.design.widget.FloatingActionButton)
                 findViewById(R.id.btnCart);
-
 
 
     }
